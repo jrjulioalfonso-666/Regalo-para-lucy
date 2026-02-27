@@ -1,1 +1,166 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Feliz Cumpleaños ✨</title>
+
+<style>
+body{
+  margin:0;
+  background: url("images/fondo.jpg") no-repeat center center fixed;
+  background-size: cover;
+  text-align:center;
+  font-family: Arial, sans-serif;
+  color:white;
+  overflow:hidden;
+}
+
+#heartBtn{
+  width:120px;
+  cursor:pointer;
+  margin-top:200px;
+  animation: latido 1.5s infinite;
+}
+
+@keyframes latido{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.1);}
+  100%{transform:scale(1);}
+}
+
+#contenido{
+  display:none;
+  margin-top:50px;
+}
+
+#imagen{
+  width:250px;
+  margin-bottom:20px;
+}
+
+#texto{
+  width:80%;
+  margin:auto;
+  font-size:20px;
+  min-height:100px;
+}
+
+.magia{
+  animation: brillo 1s infinite alternate;
+}
+
+@keyframes brillo{
+  from{ text-shadow:0 0 10px gold;}
+  to{ text-shadow:0 0 25px white;}
+}
+
+#sobreFinal{
+  display:none;
+  margin-top:100px;
+  animation: aparecer 2s forwards;
+}
+
+@keyframes aparecer{
+  from{opacity:0; transform:scale(0);}
+  to{opacity:1; transform:scale(1);}
+}
+</style>
+
+</head>
+<body>
+
+<audio id="musica" loop>
+  <source src="music/musica1.mp3" type="audio/mpeg">
+</audio>
+
+<img id="heartBtn" src="images/corazon.png" onclick="iniciar()">
+
+<div id="contenido">
+  <img id="imagen" src="images/imagen1.png">
+  <div id="texto"></div>
+  <br>
+  <button onclick="siguiente()">Dar click</button>
+</div>
+
+<div id="sobreFinal">
+  <h1>💌 Tienes una carta...</h1>
+  <p>Que tengas un cumpleaños mágico ✨</p>
+</div>
+
+<script>
+let paso=0;
+
+let textos=[
+`Hola, señorita cumpleañera.
+¿Cómo se siente cumplir 21 años?
+
+Yo ya no me acuerdo porque tengo 91.
+
+Pero...
+
+Adivina quién sí...
+Es una persona muy especial,
+la cual me contó que extraña mucho jugar contigo :'(`,
+  
+`Pero me ha dicho que sos una persona muy fuerte
+que nunca se rinde y siempre lucha muy fuerte por sus sueños!
+Me gusta que seas así.
+Algún día serás tan fuerte como yo.`,
+
+`Por si no sabías, soy un poderoso mago...
+
+Y te voy a lanzar un hechizo en este instante.
+
+Uno para que tengas un muy feliz cumpleaños
+y recibas muchísimos regalos!`
+];
+
+function iniciar(){
+  document.getElementById("heartBtn").style.display="none";
+  document.getElementById("contenido").style.display="block";
+  document.getElementById("musica").play();
+  escribirTexto(textos[0]);
+}
+
+function siguiente(){
+  paso++;
+  if(paso < textos.length){
+    document.getElementById("imagen").src="images/imagen"+(paso+1)+".png";
+    escribirTexto(textos[paso]);
+  }else{
+    final();
+  }
+}
+
+function escribirTexto(texto){
+  let i=0;
+  let velocidad=40;
+  document.getElementById("texto").innerHTML="";
+  let intervalo=setInterval(function(){
+    document.getElementById("texto").innerHTML+=texto.charAt(i);
+    i++;
+    if(i>=texto.length){
+      clearInterval(intervalo);
+      if(paso==2){
+        document.getElementById("texto").classList.add("magia");
+        cambiarMusica();
+      }
+    }
+  },velocidad);
+}
+
+function cambiarMusica(){
+  let musica=document.getElementById("musica");
+  musica.src="music/musica2.mp3";
+  musica.play();
+}
+
+function final(){
+  document.getElementById("contenido").style.display="none";
+  document.getElementById("sobreFinal").style.display="block";
+}
+</script>
+
+</body>
+</html>
