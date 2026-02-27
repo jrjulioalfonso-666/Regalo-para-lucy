@@ -1,1 +1,276 @@
-<body style="background: url('pantalla.jpg') no-repeat center center fixed; background-size: cover;">
+index.html
+Imagen1.png
+Imagen2.png
+Imagen3.png
+Imagen4.png
+Frogtheme1.mp3
+Fanfare1.mp3
+
+
+
+
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Feliz Cumpleaños 🎉</title>
+
+<style>
+body{
+  margin:0;
+  background: url("pantalla.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Arial', sans-serif;
+  color:white;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* Corazón animado con CSS */
+#heartBtn{
+  position:relative;
+  width:120px;
+  height:110px;
+  margin:200px auto;
+  cursor:pointer;
+  animation: latido 1.2s infinite;
+}
+
+#heartBtn:before,
+#heartBtn:after{
+  content:"";
+  position:absolute;
+  left:60px;
+  top:0;
+  width:60px;
+  height:90px;
+  background:red;
+  border-radius:50px 50px 0 0;
+  transform:rotate(-45deg);
+  transform-origin:0 100%;
+}
+
+#heartBtn:after{
+  left:0;
+  transform:rotate(45deg);
+  transform-origin:100% 100%;
+}
+
+@keyframes latido{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.15);}
+  100%{transform:scale(1);}
+}
+
+/* Contenedor del contenido */
+#contenido{
+  display:none;
+  margin-top:40px;
+}
+
+#imagen{
+  width:280px;
+  margin-bottom:20px;
+  transition: transform 1s;
+}
+
+#texto{
+  width:85%;
+  margin:auto;
+  font-size:20px;
+  min-height:120px;
+  text-shadow:0 0 8px black;
+}
+
+/* Botón */
+button{
+  padding:12px 25px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background: pink;
+  color: white;
+  box-shadow: 0 0 10px pink;
+  transition: transform 0.2s;
+}
+
+button:hover{
+  transform: scale(1.1);
+}
+
+/* Efectos mágicos */
+.magia{
+  animation: brillo 1s infinite alternate;
+}
+
+@keyframes brillo{
+  from{ text-shadow: 0 0 10px gold;}
+  to{ text-shadow: 0 0 25px white;}
+}
+
+/* Destellos y partículas */
+#particulas{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:10;
+}
+
+.particula{
+  position:absolute;
+  width:10px;
+  height:10px;
+  background: gold;
+  border-radius:50%;
+  opacity:0.8;
+  animation: caer linear infinite;
+}
+
+@keyframes caer{
+  0%{transform: translateY(0) translateX(0);}
+  100%{transform: translateY(100vh) translateX(50px);}
+}
+
+/* Sobre final */
+#sobreFinal{
+  display:none;
+  margin-top:100px;
+  animation: aparecer 2s forwards;
+}
+
+@keyframes aparecer{
+  from{opacity:0; transform:scale(0);}
+  to{opacity:1; transform:scale(1);}
+}
+</style>
+</head>
+<body>
+
+<!-- Música -->
+<audio id="musica" loop>
+  <source src="Frogtheme1.mp3" type="audio/mp3">
+</audio>
+
+<!-- Corazón inicial -->
+<div id="heartBtn" onclick="iniciar()"></div>
+
+<!-- Contenido principal -->
+<div id="contenido">
+  <div id="particulas"></div>
+  <img id="imagen" src="Imagen1.png">
+  <div id="texto"></div>
+  <br>
+  <button onclick="siguiente()">Dar click</button>
+</div>
+
+<!-- Sobre final -->
+<div id="sobreFinal">
+  <h1>💌 Tienes una carta muy especial...</h1>
+  <p>Que tengas un cumpleaños lleno de magia y alegría ✨🎁</p>
+</div>
+
+<script>
+// Textos
+let paso=0;
+let textos=[
+`Hola, señorita cumpleañera 🌸  
+¿Cómo se siente cumplir 21 años? 🎉  
+
+Yo ya no me acuerdo porque tengo 91 😅  
+
+Pero... adivina quién sí sabe cómo celebrar 🎂💖`, 
+
+`Una persona muy especial me contó que extraña mucho jugar contigo :'(\n  
+Y me pidió decirte que sos fuerte, valiente y que siempre luchas por tus sueños 🌟💪`,
+
+`Por si no sabías, soy un poderoso mago 🧙‍♂️✨  
+Y estoy a punto de lanzar un hechizo especial para que tengas un cumpleaños mágico 🎁💫`
+];
+
+// Iniciar el regalo
+function iniciar(){
+  document.getElementById("heartBtn").style.display="none";
+  document.getElementById("contenido").style.display="block";
+  document.getElementById("musica").play();
+  escribirTexto(textos[0]);
+}
+
+// Mostrar siguiente texto e imagen
+function siguiente(){
+  paso++;
+  if(paso < textos.length){
+    document.getElementById("imagen").src="Imagen"+(paso+1)+".png";
+    escribirTexto(textos[paso]);
+    if(paso==2){
+      activarMagia();
+      cambiarMusica();
+    }
+  }else{
+    mostrarUltimaImagen();
+  }
+}
+
+// Texto progresivo
+function escribirTexto(texto){
+  let i=0;
+  let contenedor=document.getElementById("texto");
+  contenedor.innerHTML="";
+  contenedor.classList.remove("magia");
+
+  let intervalo=setInterval(function(){
+    contenedor.innerHTML+=texto.charAt(i);
+    i++;
+    if(i>=texto.length){
+      clearInterval(intervalo);
+    }
+  },50); // velocidad más lenta para leer
+}
+
+// Efectos mágicos
+function activarMagia(){
+  document.getElementById("texto").classList.add("magia");
+  crearParticulas(30);
+}
+
+// Crear partículas doradas
+function crearParticulas(cantidad){
+  const cont=document.getElementById("particulas");
+  for(let i=0;i<cantidad;i++){
+    let p=document.createElement("div");
+    p.classList.add("particula");
+    p.style.left=Math.random()*100+"%";
+    p.style.width=Math.random()*10+5+"px";
+    p.style.height=p.style.width;
+    p.style.animationDuration=(Math.random()*3+2)+"s";
+    cont.appendChild(p);
+    setTimeout(()=>{p.remove()},5000);
+  }
+}
+
+// Cambiar música a fanfare
+function cambiarMusica(){
+  let musica=document.getElementById("musica");
+  musica.src="Fanfare1.mp3";
+  musica.play();
+}
+
+// Mostrar última imagen antes del sobre
+function mostrarUltimaImagen(){
+  document.getElementById("imagen").src="Imagen4.png";
+  document.getElementById("texto").innerHTML="";
+  setTimeout(final,3000);
+}
+
+// Mostrar sobre final
+function final(){
+  document.getElementById("contenido").style.display="none";
+  document.getElementById("sobreFinal").style.display="block";
+}
+</script>
+</body>
+</html>
