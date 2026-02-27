@@ -1,3 +1,13 @@
+images/
+  imagen1.png
+  imagen2.png
+  imagen3.png
+  imagen4.png
+
+music/
+  Frog_s Theme.m4a
+  fanfare 1.m4a
+
 
 <!DOCTYPE html>
 <html>
@@ -8,7 +18,7 @@
 <style>
 body{
   margin:0;
-  background: url("depositphotos_685446744-stock-photo-minecraft-game-november-2023-sample.jpg") no-repeat center center fixed;
+  background: url("images/imagen1.png") no-repeat center center fixed;
   background-size: cover;
   text-align:center;
   font-family: Arial, sans-serif;
@@ -16,11 +26,34 @@ body{
   overflow:hidden;
 }
 
+/* Corazón hecho con CSS */
 #heartBtn{
-  width:120px;
+  position:relative;
+  width:100px;
+  height:90px;
+  margin:250px auto;
   cursor:pointer;
-  margin-top:200px;
   animation: latido 1.5s infinite;
+}
+
+#heartBtn:before,
+#heartBtn:after{
+  content:"";
+  position:absolute;
+  left:50px;
+  top:0;
+  width:50px;
+  height:80px;
+  background:red;
+  border-radius:50px 50px 0 0;
+  transform:rotate(-45deg);
+  transform-origin:0 100%;
+}
+
+#heartBtn:after{
+  left:0;
+  transform:rotate(45deg);
+  transform-origin:100% 100%;
 }
 
 @keyframes latido{
@@ -31,19 +64,28 @@ body{
 
 #contenido{
   display:none;
-  margin-top:50px;
+  margin-top:40px;
 }
 
 #imagen{
-  width:250px;
+  width:260px;
   margin-bottom:20px;
 }
 
 #texto{
-  width:80%;
+  width:85%;
   margin:auto;
   font-size:20px;
-  min-height:100px;
+  min-height:120px;
+  text-shadow:0 0 10px black;
+}
+
+button{
+  padding:10px 20px;
+  font-size:16px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
 }
 
 .magia{
@@ -71,10 +113,10 @@ body{
 <body>
 
 <audio id="musica" loop>
-  <source src="music/musica1.mp3" type="audio/mpeg">
+  <source src="music/Frog_s Theme.m4a" type="audio/mp4">
 </audio>
 
-<img id="heartBtn" src="images/corazon.png" onclick="iniciar()">
+<div id="heartBtn" onclick="iniciar()"></div>
 
 <div id="contenido">
   <img id="imagen" src="images/imagen1.png">
@@ -118,6 +160,7 @@ y recibas muchísimos regalos!`
 
 function iniciar(){
   document.getElementById("heartBtn").style.display="none";
+  document.body.style.backgroundImage="none";
   document.getElementById("contenido").style.display="block";
   document.getElementById("musica").play();
   escribirTexto(textos[0]);
@@ -129,13 +172,13 @@ function siguiente(){
     document.getElementById("imagen").src="images/imagen"+(paso+1)+".png";
     escribirTexto(textos[paso]);
   }else{
-    final();
+    mostrarUltimaImagen();
   }
 }
 
 function escribirTexto(texto){
   let i=0;
-  let velocidad=40;
+  let velocidad=35;
   document.getElementById("texto").innerHTML="";
   let intervalo=setInterval(function(){
     document.getElementById("texto").innerHTML+=texto.charAt(i);
@@ -152,8 +195,14 @@ function escribirTexto(texto){
 
 function cambiarMusica(){
   let musica=document.getElementById("musica");
-  musica.src="music/musica2.mp3";
+  musica.src="music/fanfare 1.m4a";
   musica.play();
+}
+
+function mostrarUltimaImagen(){
+  document.getElementById("imagen").src="images/imagen4.png";
+  document.getElementById("texto").innerHTML="";
+  setTimeout(final,3000);
 }
 
 function final(){
